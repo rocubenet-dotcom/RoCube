@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoCube Minecraft Server</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background: rgba(0,0,0,0.6);
+      padding: 30px;
+      border-radius: 15px;
+    }
+    h1 { color: #00ffd5; }
+    a { color: #00ffd5; text-decoration: none; margin: 0 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RoCube</h1>
+    <p>IP: <strong>rocube.progamer.me</strong></p>
+    <div id="status">Checking server status...</div>
+    <p id="players"></p>
+    <p id="motd"></p>
+    <div>
+      <a href="https://discord.gg/yourdiscord">Discord</a>
+      <a href="https://myserver.net/store">Store</a>
+    </div>
+  </div>
+
+  <script>
+    const serverIP = "rocube.progamer.me"; // Replace with your server IP
+    fetch(`https://api.mcstatus.io/v2/status/java/${serverIP}`)
+      .then(res => res.json())
+      .then(data => {
+        if(data.online){
+          document.getElementById("status").innerText = "🟢 Server Online";
+          document.getElementById("players").innerText = `Players: ${data.players.online}/${data.players.max}`;
+          document.getElementById("motd").innerText = data.motd.clean;
+        } else {
+          document.getElementById("status").innerText = "🔴 Server Offline";
+        }
+      })
+      .catch(() => {
+        document.getElementById("status").innerText = "⚠️ Could not fetch server status";
+      });
+  </script>
+</body>
+</html>
